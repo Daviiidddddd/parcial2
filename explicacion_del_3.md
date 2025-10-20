@@ -40,7 +40,4 @@ PRED(T' -> ε)       = FOLLOW(T') = { '+', '-', ')', $ }
 PRED(F -> ( E ))    = { '(' }
 PRED(F -> id)       = { id }
 
-## Comentarios
-- La gramática resultante es LL(1) y puede implementarse con un parser recursivo-descendente predictivo.
-- A continuación se incluye un parser en Python `rd_parser_ll1.py` que implementa las funciones E, E', T, T', F y
-  una función `match()` que consume tokens. El parser reporta errores con posición y realiza comprobación completa.
+## Fin de la explciaon
