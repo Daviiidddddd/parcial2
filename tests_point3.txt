@@ -1,0 +1,6 @@
+# tests_point3.txt - expresiones de prueba para parser LL(1)
+id + id * id
+( id + id ) * id
+id + - id
+(1 + 2) * 3
+id * ( id + id ) / id
