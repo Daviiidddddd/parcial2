@@ -1,4 +1,4 @@
-# rd_parser_ll1.py - Parser recursivo-descendente (LL(1)) para la gramática transformada
+# ESte es el codigo de python del usando la gramatica a continnuacion
 # Gramática usada:
 # E  -> T E'
 # E' -> ('+' | '-') T E' | ε
