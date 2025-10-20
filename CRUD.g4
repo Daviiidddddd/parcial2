@@ -1,4 +1,4 @@
-// CRUD.g4 - Gramática ANTLR4 del Punto 2 (lenguaje CRUD mínimo)
+// CRUD.g4 - Gramática ANTLR4 del Punto 2 
 grammar CRUD;
 
 program: stmt* EOF ;
