@@ -1,0 +1,76 @@
+# Punto 1 — Gramática BNF para lenguaje CRUD mínimo
+# Archivo: point1_crud.bnf
+# Contenido: gramática, tokens, ejemplos y nota sobre parser descendente (LL(1))
+
+<program>      ::= <stmt_list>
+
+<stmt_list>    ::= <stmt> ';' <stmt_list>
+                |  <stmt> ';'
+                |  ε
+
+<stmt>         ::= <create_stmt>
+                |  <insert_stmt>
+                |  <select_stmt>
+                |  <update_stmt>
+                |  <delete_stmt>
+
+<create_stmt>  ::= 'CREATE' 'TABLE' <id> '(' <column_list> ')'
+<column_list>  ::= <column_def> ( ',' <column_def> )*
+<column_def>   ::= <id> <type>
+<type>         ::= 'INT' | 'VARCHAR' '(' <number> ')' | 'TEXT' | 'BOOLEAN'
+
+<insert_stmt>  ::= 'INSERT' 'INTO' <id> '(' <id_list> ')' 'VALUES' '(' <value_list> ')'
+<id_list>      ::= <id> ( ',' <id> )*
+<value_list>   ::= <literal> ( ',' <literal> )*
+<literal>      ::= <number> | <string> | 'NULL' | 'TRUE' | 'FALSE'
+
+<select_stmt>  ::= 'SELECT' <select_list> 'FROM' <id> <opt_where>
+<select_list>  ::= '*' | <select_item> ( ',' <select_item> )*
+<select_item>  ::= <id> | <id> '.' <id> | <id> 'AS' <id> | <expr>
+
+<update_stmt>  ::= 'UPDATE' <id> 'SET' <assign_list> <opt_where>
+<assign_list>  ::= <assign> ( ',' <assign> )*
+<assign>       ::= <id> '=' <expr>
+
+<delete_stmt>  ::= 'DELETE' 'FROM' <id> <opt_where>
+
+<opt_where>    ::= ε | 'WHERE' <cond_expr>
+
+<cond_expr>    ::= <cond_term> ( 'OR' <cond_term> )*
+<cond_term>    ::= <cond_factor> ( 'AND' <cond_factor> )*
+<cond_factor>  ::= '(' <cond_expr> ')' | <comparison>
+
+<comparison>   ::= <expr> <comp_op> <expr>
+<comp_op>      ::= '=' | '!=' | '<' | '<=' | '>' | '>='
+
+# Expresiones (nota: la versión aquí es la común; para LL(1) eliminar recursión izquierda)
+<expr>         ::= <expr> '+' <term> | <expr> '-' <term> | <term>
+<term>         ::= <term> '*' <factor> | <term> '/' <factor> | <factor>
+<factor>       ::= '(' <expr> ')' | <id> | <number> | <string>
+
+# Léxicos básicos (terminales)
+# id: (letter | '_') (letter | digit | '_')*
+# number: digit+
+# string: '\'' any_char_except_quote* '\''
+# tokens/reservadas: CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE,
+# UPDATE, SET, DELETE, AS, AND, OR, TRUE, FALSE, NULL, ';', ',', '(', ')', '.', '*',
+# '+', '-', '*', '/', '=', '!=', '<', '<=', '>', '>='
+
+# Ejemplos válidos
+# CREATE TABLE users (id INT, name VARCHAR(100), active BOOLEAN);
+# INSERT INTO users (id, name, active) VALUES (1, 'Ana', TRUE);
+# SELECT * FROM users;
+# SELECT id, name FROM users WHERE active = TRUE;
+# UPDATE users SET name = 'Ana Maria' WHERE id = 1;
+# DELETE FROM users WHERE id = 1;
+
+# Nota para implementación práctica
+# - Si vas a usar un parser recursivo-descendente (LL(1)), transforma las reglas de <expr> para
+#   eliminar la recursión izquierda:
+#     E  -> T E'
+#     E' -> ('+' | '-') T E' | ε
+#     T  -> F T'
+#     T' -> ('*' | '/') F T' | ε
+#     F  -> '(' E ')' | id | number | string
+# - En ANTLR puedes usar la gramática directa para expresiones con precedencia y associatividad;
+#   si implementas a mano, usa la versión anterior para parsing predictivo.
