@@ -1,11 +1,4 @@
-# point2_driver.py - Driver de prueba del Punto 2 para la gramática CRUD.g4
-# Instrucciones:
-# 1. Instalar ANTLR4 y su runtime para Python:
-#    pip install antlr4-python3-runtime
-# 2. Generar el parser con:
-#    antlr4 -Dlanguage=Python3 CRUD.g4 -o antlr_out
-# 3. Ejecutar:
-#    python3 point2_driver.py tests.sql
+# codigo de python
 
 import sys
 from antlr4 import FileStream, CommonTokenStream, ParseTreeWalker
