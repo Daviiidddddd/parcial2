@@ -1,7 +1,6 @@
-# Punto 1 — Gramática BNF para lenguaje CRUD mínimo
-# Archivo: point1_crud.bnf
-# Contenido: gramática, tokens, ejemplos y nota sobre parser descendente (LL(1))
+# Punto 1 — Gramática para lenguaje CRUD 
 
+# Contenido: gramática, tokens, ejemplos y ya
 <program>      ::= <stmt_list>
 
 <stmt_list>    ::= <stmt> ';' <stmt_list>
@@ -43,7 +42,7 @@
 <comparison>   ::= <expr> <comp_op> <expr>
 <comp_op>      ::= '=' | '!=' | '<' | '<=' | '>' | '>='
 
-# Expresiones (nota: la versión aquí es la común; para LL(1) eliminar recursión izquierda)
+# Expresiones (nota: la versión aquí es la común; para LL(1) doned se quita la recursión izquierda)
 <expr>         ::= <expr> '+' <term> | <expr> '-' <term> | <term>
 <term>         ::= <term> '*' <factor> | <term> '/' <factor> | <factor>
 <factor>       ::= '(' <expr> ')' | <id> | <number> | <string>
@@ -72,5 +71,4 @@
 #     T  -> F T'
 #     T' -> ('*' | '/') F T' | ε
 #     F  -> '(' E ')' | id | number | string
-# - En ANTLR puedes usar la gramática directa para expresiones con precedencia y associatividad;
-#   si implementas a mano, usa la versión anterior para parsing predictivo.
+
