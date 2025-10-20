@@ -1,4 +1,4 @@
-# rd_parser_match.py
+# rd_parser_match.py, codigo del punto5
 # Parser descendente recursivo con implementación sólida de 'match' y recuperación de errores (modo pánico).
 # Usa la gramática transformada para expresiones y también reconoce las sentencias CRUD básicas para demo.
 #
